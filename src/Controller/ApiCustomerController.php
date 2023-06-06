@@ -12,7 +12,7 @@ class ApiCustomerController extends AbstractController
     #[Route('/api/customer/{id}', name: 'app_api_customer')]
     public function index(Customer $customer): Response
     {
-        return $this->json(['customer' => $customer],
+        return $this->json( $customer,
         200,
         []);
     }
