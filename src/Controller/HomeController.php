@@ -21,21 +21,19 @@ class HomeController extends AbstractController
         $form = $this->createForm(CustomerType::class, $customer);
         $form->handleRequest($request);
 
-        // if ($form->isSubmitted() && $form->isValid()) {
-
-        //     sleep(10);
-
-        //     $customerRepository->save($customer, true);
-
-        //     return $this->redirectToRoute('app_home', [], Response::HTTP_SEE_OTHER);
-        // }
-
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $bus->dispatch(New DataInsertion($form->get('firstname')->getData(), $form->get('lastname')->getData()));
+            $customerRepository->save($customer, true);
 
             return $this->redirectToRoute('app_home', [], Response::HTTP_SEE_OTHER);
         }
+
+        // if ($form->isSubmitted() && $form->isValid()) {
+
+        //     $bus->dispatch(New DataInsertion($form->get('firstname')->getData(), $form->get('lastname')->getData()));
+
+        //     return $this->redirectToRoute('app_home', [], Response::HTTP_SEE_OTHER);
+        // }
 
         return $this->renderForm('customer/new.html.twig', [
             'customer' => $customer,
