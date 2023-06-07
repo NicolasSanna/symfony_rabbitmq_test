@@ -14,20 +14,22 @@ class ApiCustomerController extends AbstractController
     public function getCustomers(): Response
     {
         $client = HttpClient::create();
-        $response = $client->request('GET', 'http://localhost:8001/testmicroservice/');
-        $data = $response->getContent();
-        
-        return $this->json($data, 200);
+        $response = $client->request('GET', 'http://localhost:8001/testmicroservice/customers');
+        $customers = $response->getContent();
+        // dd($customers);
+        $customers = json_decode($customers);
+        return $this->json($customers, 200);
     }   
 
     #[Route('/api/customers/customer/{id}', name: 'app_api_customer')]
     public function getCustomer(int $id): Response
     {
         $client = HttpClient::create();
-        $response = $client->request('GET', 'http://localhost:8001/testmicroservice/' . $id);
+        $response = $client->request('GET', 'http://localhost:8001/testmicroservice/customers/customer/' . $id);
         $data = $response->getContent();
+        $customer = json_decode($data);
         
-        return $this->json($data, 200);
+        return $this->json($customer, 200);
     }    
     
     #[Route('/api/customers/customer/add', name: 'app_api_add_customer', methods: ['POST'])]
